@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CodeBracketIcon, EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
-type ProjectBase = {
+type Project = {
   id: number;
   title: string;
   description: string;
@@ -15,45 +15,35 @@ type ProjectBase = {
   category: 'backend' | 'fullstack' | 'tools';
 };
 
-type ProjectWithAspect = ProjectBase & {
-  imageOrientation: 'portrait' | 'landscape';
-  imageAspectRatio: number;
-};
-
-type Project = ProjectBase | ProjectWithAspect;
-
 const projects: Project[] = [
   {
     id: 1,
-    title: 'Rupa Rawi - Sustainable E-commerce',
-    description: 'A RESTful API for connecting local communities with sustainable products. Enables eco-conscious consumers to discover and purchase from vendors offering environmentally friendly goods while supporting local economies.',
-    tags: ['Python', 'Flask', 'PostgreSQL', 'JWT', 'REST API'],
-    image: '/images/projects/ruparawi-2.png',
-    imageOrientation: 'portrait',
-    imageAspectRatio: 3/4,
-    demoUrl: 'https://ruparawi-frontend.vercel.app/',
-    codeUrl: 'https://github.com/DhanaNugraha/ruparawi-backend',
+    title: 'TiketQ - OTA Platform',
+    description: 'A comprehensive Online Travel Agent platform with microservices architecture. Features include flight/ferry/hotel bookings, PPOB services, payment processing, and role-based access control (RBAC). Built with Python, FastAPI, and PostgreSQL.',
+    tags: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Microservices', 'JWT', 'OAuth2', 'Redis', 'Kubernetes'],
+    image: '/images/projects/tiketq.png',
+    demoUrl: '#',
+    codeUrl: 'https://github.com/DhanaNugraha/tiketq-backend',
     category: 'backend',
   },
   {
     id: 2,
-    title: 'Task Management System',
-    description: 'A full-stack task management application with real-time updates using WebSockets. Built with React, Node.js, and MongoDB.',
-    tags: ['React', 'Node.js', 'MongoDB', 'WebSocket', 'JWT'],
-    image: '/images/projects/ruparawi-2.png',
-    imageOrientation: 'portrait',
-    imageAspectRatio: 9/16,
-    demoUrl: 'https://example.com/task-manager',
-    codeUrl: 'https://github.com/username/task-manager',
-    category: 'fullstack',
+    title: 'WeRent - Clothing Rental Platform',
+    description: 'A modern, secure, and scalable Flask-based backend API for a clothing rental platform. Features include JWT authentication, item management, booking system, and comprehensive API documentation with Swagger UI.',
+    tags: ['Python', 'Flask', 'SQLAlchemy', 'JWT', 'OpenAPI 3.0', 'PostgreSQL'],
+    image: '/images/projects/WeRent.png',
+    demoUrl: 'https://werent-backend-api.onrender.com/docs/',
+    codeUrl: 'https://github.com/DhanaNugraha/werent-backend',
+    category: 'backend',
   },
   {
     id: 3,
-    title: 'Image Processing Service',
-    description: 'A microservice for processing and optimizing images on the fly. Built with Python, FastAPI, and OpenCV.',
-    tags: ['Python', 'FastAPI', 'OpenCV', 'Docker', 'AWS S3'],
-    image: '/images/placeholder-project.svg',
-    codeUrl: 'https://github.com/username/image-processor',
+    title: 'Rupa Rawi - Sustainable E-commerce',
+    description: 'A RESTful API for connecting local communities with sustainable products. Enables eco-conscious consumers to discover and purchase from vendors offering environmentally friendly goods while supporting local economies.',
+    tags: ['Python', 'Flask', 'PostgreSQL', 'JWT', 'REST API'],
+    image: '/images/projects/ruparawi-2.png',
+    demoUrl: 'https://ruparawi-frontend.vercel.app/',
+    codeUrl: 'https://github.com/DhanaNugraha/ruparawi-backend',
     category: 'backend',
   },
   {
@@ -61,7 +51,7 @@ const projects: Project[] = [
     title: 'Developer Portfolio',
     description: 'This portfolio website built with Next.js, TypeScript, and Tailwind CSS. Features dark mode and responsive design.',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    image: '/images/placeholder-project.svg',
+    image: '/images/projects/Portofolio.png',
     demoUrl: 'https://yourportfolio.com',
     codeUrl: 'https://github.com/username/portfolio',
     category: 'tools',
@@ -132,74 +122,11 @@ const projectItemVariants: Variants = {
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<Category>('all');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [projectsWithAspect, setProjectsWithAspect] = useState<ProjectWithAspect[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  // Detect image dimensions and update state
-  useEffect(() => {
-    const loadImages = async () => {
-      const updatedProjects = await Promise.all(projects.map(async (project) => {
-        // For placeholder, use default aspect ratio
-        if (project.image.endsWith('placeholder-project.svg')) {
-          return {
-            ...project,
-            imageOrientation: 'landscape' as const,
-            imageAspectRatio: 16/9
-          };
-        }
-
-        // For real images, load and calculate aspect ratio
-        return new Promise<ProjectWithAspect>((resolve) => {
-          const img = new Image();
-          img.onload = () => {
-            const isPortrait = img.naturalHeight > img.naturalWidth;
-            resolve({
-              ...project,
-              imageOrientation: isPortrait ? 'portrait' as const : 'landscape' as const,
-              imageAspectRatio: img.naturalWidth / img.naturalHeight
-            });
-          };
-          img.onerror = () => {
-            // Fallback for failed image loads
-            resolve({
-              ...project,
-              imageOrientation: 'landscape' as const,
-              imageAspectRatio: 16/9
-            });
-          };
-          img.src = project.image.startsWith('/') 
-            ? `${window.location.origin}${project.image}` 
-            : project.image;
-        });
-      }));
-      
-      setProjectsWithAspect(updatedProjects);
-    };
-
-    // Only run on client-side
-    if (typeof window !== 'undefined') {
-      loadImages();
-    } else {
-      // Fallback for SSR
-      const defaultProjects = projects.map(project => ({
-        ...project,
-        imageOrientation: 'landscape' as const,
-        imageAspectRatio: 16/9
-      }));
-      setProjectsWithAspect(defaultProjects);
-    }
-  }, []);
-
-  // Use projectsWithAspect if available, otherwise fallback to original projects
-  const displayProjects = projectsWithAspect.length > 0 ? projectsWithAspect : projects.map(p => ({
-    ...p,
-    imageOrientation: 'landscape' as const,
-    imageAspectRatio: 16/9
-  }));
-
   const filteredProjects = activeCategory === 'all' 
-    ? displayProjects
-    : displayProjects.filter(project => project.category === activeCategory);
+    ? projects 
+    : projects.filter(project => project.category === activeCategory);
 
   // Function to handle image loading errors
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -352,44 +279,34 @@ export default function Projects() {
                 onClick={() => handleProjectClick(project)}
               >
                 {/* Project Image */}
-                <div className="relative flex-shrink-0 group/image-container"
-                  style={{
-                    aspectRatio: 'imageAspectRatio' in project ? project.imageAspectRatio : '16/9',
-                    maxHeight: '300px',
-                    minHeight: '200px',
-                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    overflow: 'hidden'
-                  }}
-                >
-                  {/* View Details Overlay */}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-white text-indigo-600 text-sm font-medium rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110">
-                      <span>View Project</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                  </div>
-                  
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-500/5 to-purple-500/5 dark:from-indigo-900/10 dark:to-purple-900/10 transition-opacity duration-300 group-hover:opacity-80">
+                <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-500/5 to-purple-500/5 dark:from-indigo-900/10 dark:to-purple-900/10 overflow-hidden">
+                    {/* View Details Overlay */}
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-white text-indigo-600 text-sm font-medium rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110">
+                        <span>View Project</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                    </div>
+                    
                     {project.image.endsWith('placeholder-project.svg') ? (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20">
+                      <div className="absolute inset-0 flex items-center justify-center">
                         <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
                       </div>
                     ) : (
                       <img 
                         src={project.image} 
                         alt={project.title}
-                        className={`max-w-full max-h-full ${
-                          'imageOrientation' in project && project.imageOrientation === 'portrait' 
-                            ? 'h-auto w-auto max-h-full' 
-                            : 'w-full h-full object-cover'
-                        }`}
+                        className="w-full h-full object-contain p-4"
                         onError={handleImageError}
                         loading="lazy"
+                        style={{
+                          maxHeight: '100%',
+                          maxWidth: '100%',
+                          objectFit: 'contain'
+                        }}
                       />
                     )}
                   </div>
