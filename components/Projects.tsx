@@ -140,18 +140,34 @@ export default function Projects() {
               <div className="h-full bg-white dark:bg-slate-900/40 rounded-xl shadow-md overflow-hidden transition-transform duration-300 group-hover:shadow-xl">
                 {/* Project Image */}
                 <div className="h-48 bg-gray-200 dark:bg-gray-900/50 relative overflow-hidden border-b border-gray-100 dark:border-gray-700">
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20"></div>
                   {project.image.endsWith('placeholder-project.svg') ? (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
+                      </div>
                     </div>
                   ) : (
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-full h-full object-cover object-center"
-                      onError={handleImageError}
-                    />
+                    <div className="absolute inset-0">
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-full object-cover object-center"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const parent = target.parentElement;
+                          if (parent) {
+                            const gradient = document.createElement('div');
+                            gradient.className = 'absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20';
+                            const icon = document.createElement('div');
+                            icon.className = 'absolute inset-0 flex items-center justify-center';
+                            icon.innerHTML = '<svg class="h-16 w-16 text-gray-300 dark:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>';
+                            parent.appendChild(gradient);
+                            parent.appendChild(icon);
+                          }
+                        }}
+                      />
+                    </div>
                   )}
                 </div>
 
