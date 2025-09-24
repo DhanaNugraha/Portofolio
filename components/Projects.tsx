@@ -32,7 +32,7 @@ const projects: Project[] = [
     description: 'A modern, secure, and scalable Flask-based backend API for a clothing rental platform. Features include JWT authentication, item management, booking system, and comprehensive API documentation with Swagger UI.',
     tags: ['Python', 'Flask', 'SQLAlchemy', 'JWT', 'OpenAPI 3.0', 'PostgreSQL', 'Swagger'],
     image: '/images/projects/WeRent.png',
-    demoUrl: 'https://werent-backend-api.onrender.com/docs/',
+    demoUrl: 'https://werent-frontend.vercel.app/',
     codeUrl: 'https://github.com/DhanaNugraha/werent-backend',
     category: 'backend',
   },
