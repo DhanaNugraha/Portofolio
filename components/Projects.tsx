@@ -443,7 +443,12 @@ export default function Projects() {
       {/* Project Detail Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <div 
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto"
             onClick={handleBackdropClick}
           >
             <motion.div
@@ -452,6 +457,7 @@ export default function Projects() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative"
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Project Image */}
               <div className="relative w-full overflow-hidden bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20" style={{ aspectRatio: '16/9' }}>
@@ -533,9 +539,16 @@ export default function Projects() {
                     View Code
                   </a>
                 </div>
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 p-2 rounded-full bg-white/80 dark:bg-gray-700/80 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                  aria-label="Close modal"
+                >
+                  <XMarkIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+                </button>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>
