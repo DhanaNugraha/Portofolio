@@ -122,12 +122,12 @@ export default function Projects() {
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
-              <div className="h-full bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-transform duration-300 group-hover:shadow-xl">
+              <div className="h-full bg-white dark:bg-slate-900/40 rounded-xl shadow-md overflow-hidden transition-transform duration-300 group-hover:shadow-xl">
                 {/* Project Image */}
-                <div className="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10"></div>
+                <div className="h-48 bg-gray-200 dark:bg-gray-900/50 relative overflow-hidden border-b border-gray-100 dark:border-gray-700">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-600" />
+                    <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
                   </div>
                 </div>
 
@@ -145,7 +145,7 @@ export default function Projects() {
                     {project.tags.map((tag) => (
                       <span 
                         key={tag}
-                        className="px-2 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200 rounded-full"
+                        className="px-2 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/70 text-indigo-800 dark:text-indigo-100 rounded-full border border-indigo-200 dark:border-indigo-800/50"
                       >
                         {tag}
                       </span>
@@ -159,7 +159,7 @@ export default function Projects() {
                         href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors"
+                        className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-700 rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
                       >
                         <EyeIcon className="h-4 w-4" />
                         Demo

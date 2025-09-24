@@ -31,7 +31,7 @@ const timeline = [
   {
     id: 4,
     type: 'education',
-    title: 'B.Sc. Chemical Engineering',
+    title: 'S.T. Chemical Engineering',
     institution: 'Bandung Institute of Technology',
     year: '2020-2024',
     description: 'Focused on process design, optimization, and industrial systems',
