@@ -1,5 +1,6 @@
 # data directory
-# /data
+/data
+prompt.txt
 
 # dependencies
 /node_modules
