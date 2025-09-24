@@ -115,7 +115,7 @@ export default function TechStack() {
             My Tech Stack
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Technologies I've been working with recently
+            Technologies I&apos;ve been working with recently
           </p>
         </motion.div>
 

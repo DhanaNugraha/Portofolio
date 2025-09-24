@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CodeBracketIcon, EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 
 type Project = {
   id: number;
@@ -202,7 +203,7 @@ export default function Projects() {
           </h2>
           <div className="w-20 h-1 bg-indigo-600 mx-auto mb-8"></div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Here are some of the projects I've worked on. Each project presents unique challenges and learning opportunities.
+            Here are some of the projects I&apos;ve worked on. Each project presents unique challenges and learning opportunities.
           </p>
         </motion.div>
 
@@ -296,18 +297,22 @@ export default function Projects() {
                         <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
                       </div>
                     ) : (
-                      <img 
-                        src={project.image} 
-                        alt={project.title}
-                        className="w-full h-full object-contain p-4"
-                        onError={handleImageError}
-                        loading="lazy"
-                        style={{
-                          maxHeight: '100%',
-                          maxWidth: '100%',
-                          objectFit: 'contain'
-                        }}
-                      />
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-contain p-4"
+                          onError={() => {
+                            // Handle image error
+                          }}
+                          style={{
+                            maxHeight: '100%',
+                            maxWidth: '100%',
+                            objectFit: 'contain' as const
+                          }}
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -391,10 +396,12 @@ export default function Projects() {
                     <CodeBracketIcon className="h-20 w-20 text-gray-300 dark:text-gray-600" />
                   </div>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <img
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <Image
                       src={selectedProject.image}
                       alt={selectedProject.title}
+                      width={800}
+                      height={600}
                       className="max-w-full max-h-full object-contain"
                       style={{
                         width: 'auto',
@@ -404,7 +411,7 @@ export default function Projects() {
                         objectFit: 'contain'
                       }}
                       onError={(e) => {
-                        const target = e.target as HTMLImageElement;
+                        const target = e.currentTarget;
                         target.style.display = 'none';
                         const fallback = target.parentElement?.querySelector('.fallback-placeholder') as HTMLElement;
                         if (fallback) fallback.style.display = 'flex';
