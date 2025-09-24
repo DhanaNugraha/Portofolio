@@ -22,7 +22,7 @@ const projects: Project[] = [
     title: 'TiketQ - OTA Platform',
     description: 'A comprehensive Online Travel Agent platform with microservices architecture. Features include flight/ferry/hotel bookings, PPOB services, payment processing, and role-based access control (RBAC). Built with Python, FastAPI, and PostgreSQL.',
     tags: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Microservices', 'JWT', 'OAuth2', 'Redis', 'Kubernetes'],
-    image: '/images/projects/TiketQ.png',
+    image: '/images/projects/TiketQ-Blue.png',
     demoUrl: '#',
     codeUrl: 'https://github.com/DhanaNugraha/tiketq-backend',
     category: 'backend',
