@@ -245,14 +245,34 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project: Project, index: number) => (
+        <div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          style={{
+            minHeight: '500px', // Prevent layout shift
+            transition: 'min-height 0.3s ease-out',
+          }}
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project: Project, index: number) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              layout
+              initial={{ opacity: 0, y: 10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.98 }}
+              transition={{
+                duration: 0.2,
+                ease: 'easeInOut',
+                scale: { type: 'spring', stiffness: 500, damping: 30 },
+                opacity: { duration: 0.2 },
+                y: { type: 'spring', stiffness: 500, damping: 30 },
+                layout: { 
+                  type: 'spring',
+                  stiffness: 500,
+                  damping: 30,
+                  duration: 0.2
+                }
+              }}
               className="relative group"
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
@@ -355,6 +375,7 @@ export default function Projects() {
               </div>
             </motion.div>
           ))}
+          </AnimatePresence>
         </div>
       </div>
       {/* Project Detail Modal */}
