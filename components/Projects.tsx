@@ -392,38 +392,36 @@ export default function Projects() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative"
             >
-              {/* Close Button */}
-              <button
-                onClick={closeModal}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                aria-label="Close modal"
-              >
-                <XMarkIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-              </button>
-
               {/* Project Image */}
-              <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 overflow-hidden">
+              <div className="relative w-full overflow-hidden bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20" style={{ aspectRatio: '16/9' }}>
                 {selectedProject.image.endsWith('placeholder-project.svg') ? (
                   <div className="w-full h-full flex items-center justify-center">
                     <CodeBracketIcon className="h-20 w-20 text-gray-300 dark:text-gray-600" />
                   </div>
                 ) : (
-                  <>
+                  <div className="w-full h-full flex items-center justify-center">
                     <img
                       src={selectedProject.image}
                       alt={selectedProject.title}
-                      className="w-full h-full object-cover"
+                      className="max-w-full max-h-full object-contain"
+                      style={{
+                        width: 'auto',
+                        height: 'auto',
+                        maxHeight: '400px',
+                        maxWidth: '100%',
+                        objectFit: 'contain'
+                      }}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
-                        const fallback = target.nextElementSibling as HTMLElement;
+                        const fallback = target.parentElement?.querySelector('.fallback-placeholder') as HTMLElement;
                         if (fallback) fallback.style.display = 'flex';
                       }}
                     />
-                    <div className="hidden absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20">
+                    <div className="hidden fallback-placeholder absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20">
                       <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-600" />
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
 
