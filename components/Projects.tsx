@@ -12,7 +12,7 @@ type Project = {
   tags: string[];
   image: string;
   demoUrl?: string;
-  codeUrl: string;
+  codeUrl?: string;
   category: 'backend' | 'fullstack' | 'tools';
 };
 
@@ -23,8 +23,7 @@ const projects: Project[] = [
     description: 'A comprehensive Online Travel Agent platform with microservices architecture. Features include flight/ferry/hotel bookings, PPOB services, payment processing, and role-based access control (RBAC). Built with Python, FastAPI, and PostgreSQL.',
     tags: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Microservices', 'JWT', 'OAuth2', 'Redis', 'Kubernetes'],
     image: '/images/projects/TiketQ-Blue.png',
-    demoUrl: '#',
-    codeUrl: 'https://github.com/DhanaNugraha/tiketq-backend',
+
     category: 'backend',
   },
   {
@@ -53,8 +52,8 @@ const projects: Project[] = [
     description: 'This portfolio website built with Next.js, TypeScript, and Tailwind CSS. Features dark mode and responsive design.',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     image: '/images/projects/Portofolio.png',
-    demoUrl: 'https://yourportfolio.com',
-    codeUrl: 'https://github.com/username/portfolio',
+    demoUrl: 'https://portofolio-alpha-pearl-97.vercel.app/',
+    codeUrl: 'https://github.com/DhanaNugraha/Portofolio',
     category: 'tools',
   },
 ];
@@ -315,7 +314,7 @@ export default function Projects() {
                   </div>
                   {/* Buttons */}
                   <div className="flex gap-3 pt-2 mt-auto">
-                    {project.demoUrl && (
+                    {project.demoUrl ? (
                       <a
                         href={project.demoUrl}
                         target="_blank"
@@ -324,19 +323,41 @@ export default function Projects() {
                         onClick={(e) => e.stopPropagation()}
                       >
                         <EyeIcon className="h-4 w-4" />
-                        Demo
+                        Live Demo
                       </a>
+                    ) : (
+                      <button
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-md cursor-not-allowed opacity-70"
+                        disabled
+                        onClick={(e) => e.stopPropagation()}
+                        title="Demo not available"
+                      >
+                        <EyeIcon className="h-4 w-4" />
+                        Demo Unavailable
+                      </button>
                     )}
-                    <a
-                      href={project.codeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <CodeBracketIcon className="h-4 w-4" />
-                      View Code
-                    </a>
+                    {project.codeUrl ? (
+                      <a
+                        href={project.codeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <CodeBracketIcon className="h-4 w-4" />
+                        View Code
+                      </a>
+                    ) : (
+                      <button
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-md cursor-not-allowed opacity-70"
+                        disabled
+                        onClick={(e) => e.stopPropagation()}
+                        title="Source code not available"
+                      >
+                        <CodeBracketIcon className="h-4 w-4" />
+                        Code Private
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -420,7 +441,7 @@ export default function Projects() {
                 </div>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  {selectedProject.demoUrl && (
+                  {selectedProject.demoUrl ? (
                     <a
                       href={selectedProject.demoUrl}
                       target="_blank"
@@ -431,17 +452,39 @@ export default function Projects() {
                       <EyeIcon className="h-4 w-4" />
                       View Live Demo
                     </a>
+                  ) : (
+                    <button
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-md cursor-not-allowed opacity-70"
+                      disabled
+                      onClick={(e) => e.stopPropagation()}
+                      title="Demo not available"
+                    >
+                      <EyeIcon className="h-4 w-4" />
+                      Demo Not Available
+                    </button>
                   )}
-                  <a
-                    href={selectedProject.codeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <CodeBracketIcon className="h-4 w-4" />
-                    View Code
-                  </a>
+                  {selectedProject.codeUrl ? (
+                    <a
+                      href={selectedProject.codeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <CodeBracketIcon className="h-4 w-4" />
+                      View Source Code
+                    </a>
+                  ) : (
+                    <button
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-md cursor-not-allowed opacity-70"
+                      disabled
+                      onClick={(e) => e.stopPropagation()}
+                      title="Source code not available"
+                    >
+                      <CodeBracketIcon className="h-4 w-4" />
+                      Code Private
+                    </button>
+                  )}
                 </div>
                 <button
                   onClick={closeModal}
