@@ -22,7 +22,7 @@ const projects: Project[] = [
     title: 'TiketQ - OTA Platform',
     description: 'A comprehensive Online Travel Agent platform with microservices architecture. Features include flight/ferry/hotel bookings, PPOB services, payment processing, and role-based access control (RBAC). Built with Python, FastAPI, and PostgreSQL.',
     tags: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Microservices', 'JWT', 'OAuth2', 'Redis', 'Kubernetes'],
-    image: '/images/projects/tiketq.png',
+    image: '/images/projects/TiketQ.png',
     demoUrl: '#',
     codeUrl: 'https://github.com/DhanaNugraha/tiketq-backend',
     category: 'backend',
@@ -361,29 +361,26 @@ export default function Projects() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Project Image */}
-              <div className="relative w-full overflow-hidden bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20" style={{ aspectRatio: '16/9' }}>
+              <div className="relative w-full bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20" style={{ height: '45vh', minHeight: '300px' }}>
                 {selectedProject.image.endsWith('placeholder-project.svg') ? (
                   <div className="w-full h-full flex items-center justify-center">
                     <CodeBracketIcon className="h-20 w-20 text-gray-300 dark:text-gray-600" />
                   </div>
                 ) : (
-                  <div className="relative w-full h-full flex items-center justify-center">
+                  <div className="relative w-full h-full flex items-center justify-center p-6">
                     <Image
                       src={selectedProject.image}
                       alt={selectedProject.title}
                       width={800}
                       height={600}
-                      className="max-w-full max-h-full object-contain"
+                      className="max-w-[90%] max-h-[90%] w-auto h-auto object-scale-down"
                       style={{
-                        width: 'auto',
-                        height: 'auto',
-                        maxHeight: '400px',
-                        maxWidth: '100%',
-                        objectFit: 'contain'
+                        objectFit: 'contain',
+                        objectPosition: 'center',
                       }}
                       onError={(e) => {
                         const target = e.currentTarget;
