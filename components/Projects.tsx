@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CodeBracketIcon, EyeIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
@@ -18,12 +18,12 @@ type Project = {
 const projects: Project[] = [
   {
     id: 1,
-    title: 'RESTful E-commerce API',
-    description: 'A high-performance e-commerce API built with FastAPI, PostgreSQL, and Redis. Features include JWT authentication, payment processing, and real-time inventory management.',
-    tags: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker'],
-    image: '/images/projects/ecommerce-api.jpg',
-    demoUrl: 'https://example.com/demo',
-    codeUrl: 'https://github.com/username/ecommerce-api',
+    title: 'Rupa Rawi - Sustainable E-commerce',
+    description: 'A RESTful API for connecting local communities with sustainable products. Enables eco-conscious consumers to discover and purchase from vendors offering environmentally friendly goods while supporting local economies.',
+    tags: ['Python', 'Flask', 'PostgreSQL', 'JWT', 'REST API'],
+    image: '/images/projects/ruparawi.png',
+    demoUrl: 'https://ruparawi-frontend.vercel.app/',
+    codeUrl: 'https://github.com/DhanaNugraha/ruparawi-backend',
     category: 'backend',
   },
   {
@@ -31,7 +31,7 @@ const projects: Project[] = [
     title: 'Task Management System',
     description: 'A full-stack task management application with real-time updates using WebSockets. Built with React, Node.js, and MongoDB.',
     tags: ['React', 'Node.js', 'MongoDB', 'WebSocket', 'JWT'],
-    image: '/images/projects/task-manager.jpg',
+    image: '/images/projects/ruparawi-2.png',
     demoUrl: 'https://example.com/task-manager',
     codeUrl: 'https://github.com/username/task-manager',
     category: 'fullstack',
@@ -41,7 +41,7 @@ const projects: Project[] = [
     title: 'Image Processing Service',
     description: 'A microservice for processing and optimizing images on the fly. Built with Python, FastAPI, and OpenCV.',
     tags: ['Python', 'FastAPI', 'OpenCV', 'Docker', 'AWS S3'],
-    image: '/images/projects/image-processor.jpg',
+    image: '/images/placeholder-project.svg',
     codeUrl: 'https://github.com/username/image-processor',
     category: 'backend',
   },
@@ -50,22 +50,37 @@ const projects: Project[] = [
     title: 'Developer Portfolio',
     description: 'This portfolio website built with Next.js, TypeScript, and Tailwind CSS. Features dark mode and responsive design.',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    image: '/images/projects/portfolio.jpg',
+    image: '/images/placeholder-project.svg',
     demoUrl: 'https://yourportfolio.com',
     codeUrl: 'https://github.com/username/portfolio',
     category: 'tools',
   },
 ];
 
-const categories = ['all', 'backend', 'fullstack', 'tools'];
+const categories = ['all', 'backend', 'fullstack', 'tools'] as const;
+type Category = typeof categories[number];
 
 export default function Projects() {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState<Category>('all');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   const filteredProjects = activeCategory === 'all' 
     ? projects 
     : projects.filter(project => project.category === activeCategory);
+
+  // Debug logs that only run once when component mounts
+  useEffect(() => {
+    console.log('Project 1 image path:', projects[0].image);
+    console.log('All projects:', projects);
+  }, []);
+
+  // Function to handle image loading errors
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.target as HTMLImageElement;
+    // Replace with null to trigger the CodeBracketIcon display
+    target.style.display = 'none';
+    target.onerror = null; // Prevent infinite loop
+  };
 
   return (
     <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-800">
@@ -94,7 +109,7 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          {categories.map((category) => (
+          {categories.map((category: Category) => (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
@@ -111,7 +126,7 @@ export default function Projects() {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project: Project, index: number) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
@@ -126,9 +141,18 @@ export default function Projects() {
                 {/* Project Image */}
                 <div className="h-48 bg-gray-200 dark:bg-gray-900/50 relative overflow-hidden border-b border-gray-100 dark:border-gray-700">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
-                  </div>
+                  {project.image.endsWith('placeholder-project.svg') ? (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
+                    </div>
+                  ) : (
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="w-full h-full object-cover object-center"
+                      onError={handleImageError}
+                    />
+                  )}
                 </div>
 
                 {/* Project Content */}
@@ -142,7 +166,7 @@ export default function Projects() {
                   
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag) => (
+                    {project.tags.map((tag: string) => (
                       <span 
                         key={tag}
                         className="px-2 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/70 text-indigo-800 dark:text-indigo-100 rounded-full border border-indigo-200 dark:border-indigo-800/50"
