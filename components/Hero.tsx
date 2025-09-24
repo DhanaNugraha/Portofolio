@@ -32,7 +32,7 @@ export default function Hero() {
             Bridging the gap between chemical engineering and software development to build efficient, sustainable solutions. 
             Passionate about clean code, test-driven development, and creating impactful applications.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -56,12 +56,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-30 left-1/2 transform -translate-x-1/2"
         >
-          <div className="absolute bottom-8 left-0 right-0 w-full flex justify-center">
+          <div className="absolute left-0 right-0 w-full flex justify-center">
             <a href="#about" className="group">
               <div className="flex flex-col items-center">
-                <span className="text-sm text-gray-500 dark:text-gray-400 mb-2">Scroll down</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400 mb-3">Scroll down</span>
                 <motion.div
                   animate={{
                     y: [0, 10, 0],

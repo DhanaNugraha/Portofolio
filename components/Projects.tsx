@@ -114,7 +114,16 @@ const projectItemVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.3,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: 0,
+    scale: 0.98,
+    transition: {
+      duration: 0.2,
       ease: [0.4, 0, 0.2, 1],
     },
   },
@@ -314,19 +323,18 @@ export default function Projects() {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {filteredProjects.map((project: Project, index: number) => (
             <motion.div
               key={project.id}
               layout
               initial="hidden"
               animate="show"
-              exit={{ opacity: 0, y: 10, scale: 0.98 }}
+              exit={{ opacity: 0, y: 0, scale: 0.98 }}
               custom={index}
               variants={projectItemVariants}
               transition={{
-                delay: 0.3 + (index * 0.1),
-                duration: 0.6,
+                duration: 0.3,
                 ease: [0.4, 0, 0.2, 1],
                 layout: { 
                   type: 'spring',

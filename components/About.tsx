@@ -22,6 +22,14 @@ const timeline = [
   },
   {
     id: 3,
+    type: 'education',
+    title: 'Student Exchange Program, Chemical Engineering',
+    institution: 'Katholieke Universiteit Leuven',
+    year: '2023-2024',
+    description: 'Studied foundational AI techniques (heuristic search, Markov Decision Processes) and other chemical engineering electives',
+  },
+  {
+    id: 4,
     type: 'work',
     title: 'Technology and Engineering Intern',
     institution: 'Pertamina New & Renewable Energy',
@@ -29,7 +37,7 @@ const timeline = [
     description: 'Conducted studies on sustainable energy solutions and performed technical simulations',
   },
   {
-    id: 4,
+    id: 5,
     type: 'education',
     title: 'S.T. Chemical Engineering',
     institution: 'Bandung Institute of Technology',
@@ -108,7 +116,7 @@ export default function About() {
             className="relative"
           >
             <motion.div 
-              className="relative space-y-8"
+              className="relative space-y-10"
               variants={containerVariants}
               initial="hidden"
               whileInView="show"
@@ -127,7 +135,7 @@ export default function About() {
                       <BriefcaseIcon className="h-5 w-5 text-indigo-600 dark:text-indigo-300" />
                     )}
                   </div>
-                  <div className="absolute left-3.5 top-8 -ml-px h-full w-0.5 bg-gray-200 dark:bg-gray-700" aria-hidden="true" />
+                  <div className={`absolute left-3.5 top-8 -ml-px w-0.5 bg-gray-200 dark:bg-gray-700 ${index === timeline.length - 1 ? 'h-[calc(100%-2rem)]' : 'h-full'}`} aria-hidden="true" />
                   <div className="relative
                     before:absolute before:-left-3 before:top-1/2 before:h-3 before:w-3 before:-translate-y-1/2 before:rounded-full before:border-4 before:border-indigo-600 before:bg-white dark:before:bg-gray-900
                     after:absolute after:-left-3 after:top-1/2 after:h-2 after:w-2 after:-translate-y-1/2 after:rounded-full after:bg-indigo-600
