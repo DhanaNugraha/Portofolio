@@ -46,37 +46,58 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setSubmitStatus({
+        success: false,
+        message: 'Please fill in all required fields.'
+      });
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus({
+        success: false,
+        message: 'Please enter a valid email address.'
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
-      // Here you would typically send the form data to your backend
-      console.log('Form submitted:', formData);
+      // Prepare email content
+      const subject = `New message from ${formData.name}`;
+      const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0A${formData.message.replace(/\n/g, '%0D%0A')}`;
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Open default email client
+      window.location.href = `mailto:dhananugraha1511@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
       
       setSubmitStatus({
         success: true,
-        message: 'Your message has been sent successfully! I\'ll get back to you soon.'
+        message: 'Your email client is opening with a pre-filled message. Please send it to contact me!'
       });
       
       // Reset form
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error preparing email:', error);
       setSubmitStatus({
         success: false,
-        message: 'Something went wrong. Please try again later.'
+        message: 'Could not open email client. Please try again or contact me directly at dhananugraha1511@gmail.com'
       });
     } finally {
       setIsSubmitting(false);
       
-      // Clear status message after 5 seconds
+      // Clear status message after 8 seconds (longer for user to read)
       setTimeout(() => {
         setSubmitStatus(null);
-      }, 5000);
+      }, 8000);
     }
   };
 
@@ -124,7 +145,7 @@ export default function Contact() {
                   <div className="ml-4">
                     <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email</h4>
                     <a 
-                      href="mailto:your.email@example.com" 
+                      href="mailto:dhananugraha1511@gmail.com" 
                       className="text-indigo-600 dark:text-indigo-400 hover:underline"
                     >
                       dhananugraha1511@gmail.com

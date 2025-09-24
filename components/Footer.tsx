@@ -34,7 +34,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">DN</h3>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Dhana Nugraha</h3>
             <p className="text-gray-600 dark:text-gray-300 mb-4 max-w-md">
               Full Stack Developer with a background in Chemical Engineering, passionate about building sustainable and efficient solutions through code.
             </p>
@@ -160,7 +160,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} DN. All rights reserved.
+            &copy; {new Date().getFullYear()} Dhana Nugraha. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
             <button
