@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { CodeBracketIcon, EyeIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CodeBracketIcon, EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
-type Project = {
+type ProjectBase = {
   id: number;
   title: string;
   description: string;
@@ -15,13 +15,22 @@ type Project = {
   category: 'backend' | 'fullstack' | 'tools';
 };
 
+type ProjectWithAspect = ProjectBase & {
+  imageOrientation: 'portrait' | 'landscape';
+  imageAspectRatio: number;
+};
+
+type Project = ProjectBase | ProjectWithAspect;
+
 const projects: Project[] = [
   {
     id: 1,
     title: 'Rupa Rawi - Sustainable E-commerce',
     description: 'A RESTful API for connecting local communities with sustainable products. Enables eco-conscious consumers to discover and purchase from vendors offering environmentally friendly goods while supporting local economies.',
     tags: ['Python', 'Flask', 'PostgreSQL', 'JWT', 'REST API'],
-    image: '/images/projects/ruparawi.png',
+    image: '/images/projects/ruparawi-2.png',
+    imageOrientation: 'portrait',
+    imageAspectRatio: 3/4,
     demoUrl: 'https://ruparawi-frontend.vercel.app/',
     codeUrl: 'https://github.com/DhanaNugraha/ruparawi-backend',
     category: 'backend',
@@ -32,6 +41,8 @@ const projects: Project[] = [
     description: 'A full-stack task management application with real-time updates using WebSockets. Built with React, Node.js, and MongoDB.',
     tags: ['React', 'Node.js', 'MongoDB', 'WebSocket', 'JWT'],
     image: '/images/projects/ruparawi-2.png',
+    imageOrientation: 'portrait',
+    imageAspectRatio: 9/16,
     demoUrl: 'https://example.com/task-manager',
     codeUrl: 'https://github.com/username/task-manager',
     category: 'fullstack',
@@ -63,27 +74,136 @@ type Category = typeof categories[number];
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<Category>('all');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [projectsWithAspect, setProjectsWithAspect] = useState<ProjectWithAspect[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Detect image dimensions and update state
+  useEffect(() => {
+    const loadImages = async () => {
+      const updatedProjects = await Promise.all(projects.map(async (project) => {
+        // For placeholder, use default aspect ratio
+        if (project.image.endsWith('placeholder-project.svg')) {
+          return {
+            ...project,
+            imageOrientation: 'landscape' as const,
+            imageAspectRatio: 16/9
+          };
+        }
+
+        // For real images, load and calculate aspect ratio
+        return new Promise<ProjectWithAspect>((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            const isPortrait = img.naturalHeight > img.naturalWidth;
+            resolve({
+              ...project,
+              imageOrientation: isPortrait ? 'portrait' as const : 'landscape' as const,
+              imageAspectRatio: img.naturalWidth / img.naturalHeight
+            });
+          };
+          img.onerror = () => {
+            // Fallback for failed image loads
+            resolve({
+              ...project,
+              imageOrientation: 'landscape' as const,
+              imageAspectRatio: 16/9
+            });
+          };
+          img.src = project.image.startsWith('/') 
+            ? `${window.location.origin}${project.image}` 
+            : project.image;
+        });
+      }));
+      
+      setProjectsWithAspect(updatedProjects);
+    };
+
+    // Only run on client-side
+    if (typeof window !== 'undefined') {
+      loadImages();
+    } else {
+      // Fallback for SSR
+      const defaultProjects = projects.map(project => ({
+        ...project,
+        imageOrientation: 'landscape' as const,
+        imageAspectRatio: 16/9
+      }));
+      setProjectsWithAspect(defaultProjects);
+    }
+  }, []);
+
+  // Use projectsWithAspect if available, otherwise fallback to original projects
+  const displayProjects = projectsWithAspect.length > 0 ? projectsWithAspect : projects.map(p => ({
+    ...p,
+    imageOrientation: 'landscape' as const,
+    imageAspectRatio: 16/9
+  }));
 
   const filteredProjects = activeCategory === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === activeCategory);
-
-  // Debug logs that only run once when component mounts
-  useEffect(() => {
-    console.log('Project 1 image path:', projects[0].image);
-    console.log('All projects:', projects);
-  }, []);
+    ? displayProjects
+    : displayProjects.filter(project => project.category === activeCategory);
 
   // Function to handle image loading errors
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.target as HTMLImageElement;
-    // Replace with null to trigger the CodeBracketIcon display
     target.style.display = 'none';
     target.onerror = null; // Prevent infinite loop
+    
+    // Show fallback content
+    const container = target.closest('.project-image-container');
+    if (container) {
+      container.classList.add('bg-gradient-to-br', 'from-indigo-500/10', 'to-purple-500/10', 'dark:from-indigo-900/20', 'dark:to-purple-900/20');
+      
+      // Add fallback icon if not already present
+      if (!container.querySelector('.fallback-icon')) {
+        container.innerHTML = `
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center p-4">
+              <CodeBracketIcon className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-600 mb-2" />
+              <p class="text-xs text-gray-500 dark:text-gray-400">Image not available</p>
+            </div>
+          </div>
+        `;
+      }
+    }
   };
 
+  // Function to handle project card click
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    // Disable body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+  };
+
+
+  // Function to close the modal
+  const closeModal = () => {
+    setSelectedProject(null);
+    // Re-enable body scroll
+    document.body.style.overflow = 'auto';
+  };
+
+  // Close modal when clicking outside content
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
+  // Close modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedProject) {
+        closeModal();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedProject]);
+
   return (
-    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-800 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -137,69 +257,84 @@ export default function Projects() {
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
-              <div className="h-full bg-white dark:bg-slate-900/40 rounded-xl shadow-md overflow-hidden transition-transform duration-300 group-hover:shadow-xl">
+              <div 
+                className="flex flex-col h-full bg-white dark:bg-slate-900/40 rounded-xl shadow-md overflow-hidden transition-all duration-300 group-hover:shadow-xl hover:-translate-y-1 transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                onClick={() => handleProjectClick(project)}
+              >
                 {/* Project Image */}
-                <div className="h-48 bg-gray-200 dark:bg-gray-900/50 relative overflow-hidden border-b border-gray-100 dark:border-gray-700">
-                  {project.image.endsWith('placeholder-project.svg') ? (
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20">
-                      <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative flex-shrink-0 group/image-container"
+                  style={{
+                    aspectRatio: 'imageAspectRatio' in project ? project.imageAspectRatio : '16/9',
+                    maxHeight: '300px',
+                    minHeight: '200px',
+                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {/* View Details Overlay */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-white text-indigo-600 text-sm font-medium rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110">
+                      <span>View Project</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                  </div>
+                  
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-500/5 to-purple-500/5 dark:from-indigo-900/10 dark:to-purple-900/10 transition-opacity duration-300 group-hover:opacity-80">
+                    {project.image.endsWith('placeholder-project.svg') ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20">
                         <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-700" />
                       </div>
-                    </div>
-                  ) : (
-                    <div className="absolute inset-0">
+                    ) : (
                       <img 
                         src={project.image} 
                         alt={project.title}
-                        className="w-full h-full object-cover object-center"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            const gradient = document.createElement('div');
-                            gradient.className = 'absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20';
-                            const icon = document.createElement('div');
-                            icon.className = 'absolute inset-0 flex items-center justify-center';
-                            icon.innerHTML = '<svg class="h-16 w-16 text-gray-300 dark:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>';
-                            parent.appendChild(gradient);
-                            parent.appendChild(icon);
-                          }
-                        }}
+                        className={`max-w-full max-h-full ${
+                          'imageOrientation' in project && project.imageOrientation === 'portrait' 
+                            ? 'h-auto w-auto max-h-full' 
+                            : 'w-full h-full object-cover'
+                        }`}
+                        onError={handleImageError}
+                        loading="lazy"
                       />
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
 
                 {/* Project Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="p-6 flex flex-col flex-grow relative group">
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
                     {project.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
                     {project.description}
                   </p>
                   
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag: string) => (
+                  <div className="flex flex-wrap gap-2 mb-2 max-h-20 overflow-y-auto">
+                    {project.tags.map((tag) => (
                       <span 
                         key={tag}
-                        className="px-2 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/70 text-indigo-800 dark:text-indigo-100 rounded-full border border-indigo-200 dark:border-indigo-800/50"
+                        className="px-2 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 whitespace-nowrap"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-
                   {/* Buttons */}
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex gap-3 pt-2 mt-auto">
                     {project.demoUrl && (
                       <a
                         href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-700 rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-700 rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <EyeIcon className="h-4 w-4" />
                         Demo
@@ -209,49 +344,120 @@ export default function Projects() {
                       href={project.codeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <CodeBracketIcon className="h-4 w-4" />
-                      Code
+                      View Code
                     </a>
                   </div>
                 </div>
-
-                {/* Hover Overlay */}
-                {hoveredProject === project.id && (
-                  <motion.div 
-                    className="absolute inset-0 bg-black/70 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: hoveredProject === project.id ? 1 : 0 }}
-                  >
-                    {project.demoUrl && (
-                      <a
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-white text-gray-900 rounded-full hover:bg-gray-100 transition-colors"
-                      >
-                        <EyeIcon className="h-5 w-5" />
-                        Live Demo
-                      </a>
-                    )}
-                    <a
-                      href={project.codeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
-                    >
-                      <CodeBracketIcon className="h-5 w-5" />
-                      View Code
-                      <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-                    </a>
-                  </motion.div>
-                )}
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div 
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+            onClick={handleBackdropClick}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative"
+            >
+              {/* Close Button */}
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                aria-label="Close modal"
+              >
+                <XMarkIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+              </button>
+
+              {/* Project Image */}
+              <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                {selectedProject.image.endsWith('placeholder-project.svg') ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <CodeBracketIcon className="h-20 w-20 text-gray-300 dark:text-gray-600" />
+                  </div>
+                ) : (
+                  <>
+                    <img
+                      src={selectedProject.image}
+                      alt={selectedProject.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = target.nextElementSibling as HTMLElement;
+                        if (fallback) fallback.style.display = 'flex';
+                      }}
+                    />
+                    <div className="hidden absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-900/20 dark:to-purple-900/20">
+                      <CodeBracketIcon className="h-16 w-16 text-gray-300 dark:text-gray-600" />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Project Content */}
+              <div className="p-6">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  {selectedProject.title}
+                </h3>
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {selectedProject.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="prose dark:prose-invert max-w-none">
+                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
+                    {selectedProject.description}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {selectedProject.demoUrl && (
+                    <a
+                      href={selectedProject.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-700 rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <EyeIcon className="h-4 w-4" />
+                      View Live Demo
+                    </a>
+                  )}
+                  <a
+                    href={selectedProject.codeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <CodeBracketIcon className="h-4 w-4" />
+                    View Code
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
