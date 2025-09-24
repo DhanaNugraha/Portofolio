@@ -36,13 +36,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200/80 dark:border-gray-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.03)] dark:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.2)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">DN</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Backend Engineer passionate about building scalable systems and solving complex problems.
+            <p className="text-gray-600 dark:text-gray-300 mb-4 max-w-md">
+              Full Stack Developer with a background in Chemical Engineering, passionate about building sustainable and efficient solutions through code.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
@@ -51,7 +51,7 @@ export default function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 hover:-translate-y-0.5"
                   aria-label={social.name}
                 >
                   <span className="sr-only">{social.name}</span>
@@ -171,7 +171,7 @@ export default function Footer() {
           <div className="mt-4 md:mt-0">
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-md hover:shadow-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 hover:-translate-y-0.5"
             >
               Back to top
               <ArrowUpIcon className="ml-2 h-4 w-4" />

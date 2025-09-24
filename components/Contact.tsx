@@ -112,7 +112,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="space-y-8"
+              className="space-y-8 bg-white dark:bg-slate-900/40 rounded-xl p-8 shadow-lg hover:shadow-xl dark:shadow-xl dark:shadow-gray-900/20 transition-all duration-300 border border-gray-100 dark:border-gray-700 backdrop-blur-sm"
             >
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 Let's talk about your project
@@ -123,7 +123,7 @@ export default function Contact() {
               
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-300">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-300 shadow-sm">
                     <EnvelopeIcon className="h-5 w-5" />
                   </div>
                   <div className="ml-4">
@@ -138,7 +138,7 @@ export default function Contact() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-300">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-300 shadow-sm">
                     <PhoneIcon className="h-5 w-5" />
                   </div>
                   <div className="ml-4">
@@ -153,7 +153,7 @@ export default function Contact() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-300">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-300 shadow-sm">
                     <MapPinIcon className="h-5 w-5" />
                   </div>
                   <div className="ml-4">
@@ -175,7 +175,7 @@ export default function Contact() {
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-10 w-10 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors shadow-sm hover:shadow-md"
+                      className="h-10 w-10 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
                       aria-label={social.name}
                     >
                       {social.icon}
@@ -191,7 +191,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-white dark:bg-slate-900/40 dark:rounded-xl shadow-lg dark:shadow-xl dark:shadow-gray-900/20 p-6 lg:p-8 backdrop-blur-sm"
+              className="bg-white dark:bg-slate-900/40 rounded-xl shadow-xl hover:shadow-2xl dark:shadow-xl dark:shadow-gray-900/20 p-6 lg:p-8 backdrop-blur-sm border border-gray-100 dark:border-gray-700 transition-all duration-300"
             >
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
                 Send me a message

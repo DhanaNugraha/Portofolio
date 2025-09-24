@@ -22,14 +22,15 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto"
         >
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-6">
-            D N
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-6 pb-1.5">
+            Dhana Nugraha
           </h1>
           <h2 className="text-2xl md:text-3xl font-medium text-gray-700 dark:text-gray-300 mb-8">
-            Building scalable APIs & reliable systems.
+            Full Stack Developer | Chemical Engineer
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
-            Backend Engineer with a passion for creating efficient, maintainable, and performant systems.
+            Bridging the gap between chemical engineering and software development to build efficient, sustainable solutions. 
+            Passionate about clean code, test-driven development, and creating impactful applications.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <motion.a
@@ -38,15 +39,15 @@ export default function Hero() {
               href="#projects"
               className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              View My Work
+              View Projects
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href="#contact"
-              className="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-500 font-medium rounded-lg shadow hover:shadow-lg transition-all duration-300"
+              className="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-500 font-medium rounded-lg shadow hover:shadow-lg dark:shadow-md transition-all duration-300"
             >
-              Contact Me
+              Get In Touch
             </motion.a>
           </div>
         </motion.div>

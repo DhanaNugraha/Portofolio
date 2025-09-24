@@ -78,7 +78,7 @@ const techStack: SkillCategory[] = [
 
 export default function TechStack() {
   return (
-    <section id="tech" className="py-20 bg-white dark:bg-gray-900">
+    <section id="tech" className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -104,7 +104,7 @@ export default function TechStack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 dark:border-gray-700"
             >
               <div className="p-6">
                 <div className="flex items-center mb-6">
@@ -127,7 +127,7 @@ export default function TechStack() {
                           {skill.level}%
                         </span>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="w-full bg-gray-200/80 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
                         <motion.div
                           className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"
                           initial={{ width: 0 }}
@@ -167,7 +167,7 @@ export default function TechStack() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: index * 0.03 }}
-                className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow"
+                className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 border border-gray-100 dark:border-gray-700"
               >
                 <div className="h-12 w-12 flex items-center justify-center text-2xl mb-2">
                   {getTechIcon(tech)}
