@@ -1,27 +1,22 @@
 'use client';
 
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
-import { LinkedinIcon, GithubIcon, TwitterIcon, MailIcon } from 'lucide-react';
+import { LinkedinIcon, GithubIcon, MailIcon } from 'lucide-react';
 
 const socialLinks = [
   {
     name: 'GitHub',
-    url: 'https://github.com/yourusername',
+    url: 'https://github.com/DhanaNugraha',
     icon: <GithubIcon className="h-5 w-5" />,
   },
   {
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/yourusername',
+    url: 'https://www.linkedin.com/in/waradhana/',
     icon: <LinkedinIcon className="h-5 w-5" />,
   },
   {
-    name: 'Twitter',
-    url: 'https://twitter.com/yourusername',
-    icon: <TwitterIcon className="h-5 w-5" />,
-  },
-  {
     name: 'Email',
-    url: 'mailto:your.email@example.com',
+    url: 'mailto:dhananugraha1511@gmail.com',
     icon: <MailIcon className="h-5 w-5" />,
   },
 ];
@@ -108,10 +103,10 @@ export default function Footer() {
               <li className="flex items-start">
                 <MailIcon className="h-5 w-5 text-gray-500 mr-2 mt-0.5 flex-shrink-0" />
                 <a
-                  href="mailto:your.email@example.com"
+                  href="mailto:dhananugraha1511@gmail.com"
                   className="text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-colors"
                 >
-                  your.email@example.com
+                  dhananugraha1511@gmail.com
                 </a>
               </li>
               <li className="flex items-start">
@@ -129,10 +124,10 @@ export default function Footer() {
                   />
                 </svg>
                 <a
-                  href="tel:+1234567890"
+                  href="tel:+6281319106699"
                   className="text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-colors"
                 >
-                  +1 (234) 567-890
+                  +62 813-1910-6699
                 </a>
               </li>
               <li className="flex items-start">
@@ -156,7 +151,7 @@ export default function Footer() {
                   />
                 </svg>
                 <span className="text-gray-600 dark:text-gray-300">
-                  San Francisco, CA
+                  Banten, Indonesia
                 </span>
               </li>
             </ul>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { EnvelopeIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline';
-import { LinkedinIcon, GithubIcon, TwitterIcon, MailIcon } from 'lucide-react';
+import { LinkedinIcon, GithubIcon, MailIcon } from 'lucide-react';
 
 type FormData = {
   name: string;
@@ -14,22 +14,17 @@ type FormData = {
 const socialLinks = [
   {
     name: 'GitHub',
-    url: 'https://github.com/yourusername',
+    url: 'https://github.com/DhanaNugraha',
     icon: <GithubIcon className="h-6 w-6" />,
   },
   {
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/yourusername',
+    url: 'https://www.linkedin.com/in/waradhana/',
     icon: <LinkedinIcon className="h-6 w-6" />,
   },
-  {
-    name: 'Twitter',
-    url: 'https://twitter.com/yourusername',
-    icon: <TwitterIcon className="h-6 w-6" />,
-  },
-  {
+{
     name: 'Email',
-    url: 'mailto:your.email@example.com',
+    url: 'mailto:dhananugraha1511@gmail.com',
     icon: <MailIcon className="h-6 w-6" />,
   },
 ];
@@ -132,7 +127,7 @@ export default function Contact() {
                       href="mailto:your.email@example.com" 
                       className="text-indigo-600 dark:text-indigo-400 hover:underline"
                     >
-                      your.email@example.com
+                      dhananugraha1511@gmail.com
                     </a>
                   </div>
                 </div>
@@ -144,10 +139,10 @@ export default function Contact() {
                   <div className="ml-4">
                     <h4 className="text-lg font-medium text-gray-900 dark:text-white">Phone</h4>
                     <a 
-                      href="tel:+1234567890" 
+                      href="tel:+6281319106699" 
                       className="text-indigo-600 dark:text-indigo-400 hover:underline"
                     >
-                      +1 (234) 567-890
+                      +62 813-1910-6699
                     </a>
                   </div>
                 </div>
@@ -159,7 +154,7 @@ export default function Contact() {
                   <div className="ml-4">
                     <h4 className="text-lg font-medium text-gray-900 dark:text-white">Location</h4>
                     <p className="text-gray-600 dark:text-gray-300">
-                      San Francisco, CA
+                      Banten, Indonesia
                     </p>
                   </div>
                 </div>
