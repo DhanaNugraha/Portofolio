@@ -56,7 +56,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="absolute bottom-30 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-32 left-1/2 transform -translate-x-1/2"
         >
           <div className="absolute left-0 right-0 w-full flex justify-center">
             <a href="#about" className="group">
