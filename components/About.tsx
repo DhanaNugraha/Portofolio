@@ -140,7 +140,7 @@ export default function About() {
                     before:absolute before:-left-3 before:top-1/2 before:h-3 before:w-3 before:-translate-y-1/2 before:rounded-full before:border-4 before:border-indigo-600 before:bg-white dark:before:bg-gray-900
                     after:absolute after:-left-3 after:top-1/2 after:h-2 after:w-2 after:-translate-y-1/2 after:rounded-full after:bg-indigo-600
                   "></div>
-                  <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl shadow-gray-200/70 hover:shadow-gray-300/50 dark:shadow-md dark:hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl shadow-gray-200/70 hover:shadow-gray-300/50 dark:shadow-md dark:hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700">
                     <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{item.title}</h4>
                     <p className="text-indigo-600 dark:text-indigo-400">{item.institution}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{item.year}</p>
