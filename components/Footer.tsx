@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import { LinkedinIcon, GithubIcon, TwitterIcon, MailIcon } from 'lucide-react';
 

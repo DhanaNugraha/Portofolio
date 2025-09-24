@@ -122,37 +122,12 @@ const projectItemVariants: Variants = {
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<Category>('all');
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   const filteredProjects = activeCategory === 'all' 
     ? projects 
     : projects.filter(project => project.category === activeCategory);
-
-  // Function to handle image loading errors
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const target = e.target as HTMLImageElement;
-    target.style.display = 'none';
-    target.onerror = null; // Prevent infinite loop
-    
-    // Show fallback content
-    const container = target.closest('.project-image-container');
-    if (container) {
-      container.classList.add('bg-gradient-to-br', 'from-indigo-500/10', 'to-purple-500/10', 'dark:from-indigo-900/20', 'dark:to-purple-900/20');
-      
-      // Add fallback icon if not already present
-      if (!container.querySelector('.fallback-icon')) {
-        container.innerHTML = `
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center p-4">
-              <CodeBracketIcon className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-600 mb-2" />
-              <p class="text-xs text-gray-500 dark:text-gray-400">Image not available</p>
-            </div>
-          </div>
-        `;
-      }
-    }
-  };
 
   // Function to handle project card click
   const handleProjectClick = (project: Project) => {

@@ -101,10 +101,10 @@ export default function About() {
               My Journey
             </h3>
             <p className="text-gray-600 dark:text-gray-300">
-              With a strong foundation in chemical engineering and a passion for technology, I've transitioned into software engineering through intensive training and hands-on projects. My background in process optimization and analytical thinking gives me a unique perspective on building efficient systems.
+              With a strong foundation in chemical engineering and a passion for technology, I&apos;ve transitioned into software engineering through intensive training and hands-on projects. My background in process optimization and analytical thinking gives me a unique perspective on building efficient systems.
             </p>
             <p className="text-gray-600 dark:text-gray-300">
-              Through my journey, I've developed expertise in Python, Flask, PostgreSQL, and containerization with Docker. I'm particularly proud of achieving 98% test coverage on a sustainable marketplace project that won 2nd place in my bootcamp.
+              Through my journey, I&apos;ve developed expertise in Python, Flask, PostgreSQL, and containerization with Docker. I&apos;m particularly proud of achieving 98% test coverage on a sustainable marketplace project that won 2nd place in my bootcamp.
             </p>
           </motion.div>
 

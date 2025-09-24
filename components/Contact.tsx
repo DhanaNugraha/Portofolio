@@ -115,10 +115,10 @@ export default function Contact() {
               className="space-y-8 bg-white dark:bg-slate-900/40 rounded-xl p-8 shadow-lg hover:shadow-xl dark:shadow-xl dark:shadow-gray-900/20 transition-all duration-300 border border-gray-100 dark:border-gray-700 backdrop-blur-sm"
             >
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                Let's talk about your project
+                Let&apos;s talk about your project
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
               </p>
               
               <div className="space-y-6">
