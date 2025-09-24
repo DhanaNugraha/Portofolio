@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { BriefcaseIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 
 const timeline = [
@@ -37,6 +37,29 @@ const timeline = [
     description: 'Focused on process design, optimization, and industrial systems',
   },
 ];
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.4, // Increased from 0.2
+      delayChildren: 0.5,  // Increased from 0.3
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 1,        // Increased from 0.6
+      ease: "easeOut"
+    }
+  },
+};
 
 export default function About() {
   return (
@@ -84,9 +107,19 @@ export default function About() {
             transition={{ duration: 0.5 }}
             className="relative"
           >
-            <div className="relative space-y-8">
+            <motion.div 
+              className="relative space-y-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+            >
               {timeline.map((item, index) => (
-                <div key={item.id} className="relative pl-8 sm:pl-16">
+                <motion.div 
+                  key={item.id} 
+                  className="relative pl-8 sm:pl-16"
+                  variants={itemVariants}
+                >
                   <div className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900 shadow-sm">
                     {item.type === 'education' ? (
                       <AcademicCapIcon className="h-5 w-5 text-indigo-600 dark:text-indigo-300" />
@@ -105,9 +138,9 @@ export default function About() {
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{item.year}</p>
                     <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

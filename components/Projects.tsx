@@ -71,6 +71,55 @@ const projects: Project[] = [
 const categories = ['all', 'backend', 'fullstack', 'tools'] as const;
 type Category = typeof categories[number];
 
+import type { Variants } from 'framer-motion';
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const categoryVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  },
+};
+
+const projectsContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+      delayChildren: 0.6, // Start after categories have appeared
+    },
+  },
+};
+
+const projectItemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  },
+};
+
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<Category>('all');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
@@ -224,15 +273,24 @@ export default function Projects() {
         {/* Category Filter */}
         <motion.div 
           className="flex flex-wrap justify-center gap-3 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          {categories.map((category: Category) => (
-            <button
+          {categories.map((category: Category, index) => (
+            <motion.button
               key={category}
               onClick={() => setActiveCategory(category)}
+              custom={index}
+              initial="hidden"
+              animate="show"
+              variants={categoryVariants}
+              transition={{
+                delay: 0.1 + (index * 0.1),
+                duration: 0.5,
+                ease: [0.4, 0, 0.2, 1]
+              }}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === category
                   ? 'bg-indigo-600 text-white'
@@ -240,32 +298,36 @@ export default function Projects() {
               }`}
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
-            </button>
+            </motion.button>
           ))}
         </motion.div>
 
         {/* Projects Grid */}
-        <div 
+        <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           style={{
             minHeight: '500px', // Prevent layout shift
             transition: 'min-height 0.3s ease-out',
           }}
+          variants={projectsContainerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
         >
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project: Project, index: number) => (
             <motion.div
               key={project.id}
               layout
-              initial={{ opacity: 0, y: 10, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial="hidden"
+              animate="show"
               exit={{ opacity: 0, y: 10, scale: 0.98 }}
+              custom={index}
+              variants={projectItemVariants}
               transition={{
-                duration: 0.2,
-                ease: 'easeInOut',
-                scale: { type: 'spring', stiffness: 500, damping: 30 },
-                opacity: { duration: 0.2 },
-                y: { type: 'spring', stiffness: 500, damping: 30 },
+                delay: 0.3 + (index * 0.1),
+                duration: 0.6,
+                ease: [0.4, 0, 0.2, 1],
                 layout: { 
                   type: 'spring',
                   stiffness: 500,
@@ -376,13 +438,12 @@ export default function Projects() {
             </motion.div>
           ))}
           </AnimatePresence>
-        </div>
+        </motion.div>
       </div>
       {/* Project Detail Modal */}
       <AnimatePresence>
         {selectedProject && (
           <div 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
             onClick={handleBackdropClick}
           >
             <motion.div
