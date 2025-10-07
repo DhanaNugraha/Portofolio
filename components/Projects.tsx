@@ -13,21 +13,30 @@ type Project = {
   image: string;
   demoUrl?: string;
   codeUrl?: string;
-  category: 'backend' | 'fullstack' | 'tools';
+  category: 'backend' | 'fullstack' | 'frontend';
 };
 
 const projects: Project[] = [
   {
     id: 1,
+    title: 'FridgePal - Recipe Recommendation',
+    description: 'An intelligent recipe recommendation system with a multi-chef ML system that provides personalized recipe suggestions based on available ingredients. Features voice input, responsive design, and a modern web interface.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'FastAPI', 'Python', 'Machine Learning', 'OpenAI', 'shadcn/ui'],
+    image: 'placeholder-project.svg',
+    demoUrl: 'https://fridge-pal-recipes.vercel.app/',
+    codeUrl: 'https://github.com/DhanaNugraha/FridgePal',
+    category: 'fullstack',
+  },
+  {
+    id: 2,
     title: 'TiketQ - OTA Platform',
     description: 'A comprehensive Online Travel Agent platform with microservices architecture. Features include flight/ferry/hotel bookings, PPOB services, payment processing, and role-based access control (RBAC). Built with Python, FastAPI, and PostgreSQL.',
     tags: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Microservices', 'JWT', 'OAuth2', 'Swagger'],
     image: '/images/projects/TiketQ-Blue.png',
-
     category: 'backend',
   },
   {
-    id: 2,
+    id: 3,
     title: 'WeRent - Clothing Rental Platform',
     description: 'A modern, secure, and scalable Flask-based backend API for a clothing rental platform. Features include JWT authentication, item management, booking system, and comprehensive API documentation with Swagger UI.',
     tags: ['Python', 'Flask', 'SQLAlchemy', 'JWT', 'OpenAPI 3.0', 'PostgreSQL', 'Swagger'],
@@ -37,7 +46,7 @@ const projects: Project[] = [
     category: 'backend',
   },
   {
-    id: 3,
+    id: 4,
     title: 'Rupa Rawi - Sustainable E-commerce',
     description: 'A RESTful API for connecting local communities with sustainable products. Enables eco-conscious consumers to discover and purchase from vendors offering environmentally friendly goods while supporting local economies.',
     tags: ['Python', 'Flask', 'PostgreSQL', 'JWT', 'REST API', 'ApiDog', 'pytest'],
@@ -47,18 +56,18 @@ const projects: Project[] = [
     category: 'backend',
   },
   {
-    id: 4,
+    id: 5,
     title: 'Developer Portfolio',
     description: 'This portfolio website built with Next.js, TypeScript, and Tailwind CSS. Features dark mode and responsive design.',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     image: '/images/projects/Portofolio.png',
     demoUrl: 'https://portofolio-alpha-pearl-97.vercel.app/',
     codeUrl: 'https://github.com/DhanaNugraha/Portofolio',
-    category: 'tools',
+    category: 'frontend',
   },
 ];
 
-const categories = ['all', 'backend', 'fullstack', 'tools'] as const;
+const categories = ['all', 'backend', 'fullstack', 'frontend'] as const;
 type Category = typeof categories[number];
 
 import type { Variants } from 'framer-motion';
