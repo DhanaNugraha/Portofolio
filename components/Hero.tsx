@@ -26,7 +26,7 @@ export default function Hero() {
             Dhana Nugraha
           </h1>
           <h2 className="text-2xl md:text-3xl font-medium text-gray-700 dark:text-gray-300 mb-8">
-            Software Developer | Chemical Engineer
+            Software Engineer | Chemical Engineer
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
             Bridging the gap between chemical engineering and software development to build efficient, sustainable solutions. 
