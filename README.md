@@ -1,8 +1,8 @@
-# DN Portfolio
+# My Portfolio
 
 A modern, responsive, and interactive portfolio website built with Next.js, TypeScript, and Tailwind CSS. This portfolio showcases my skills, projects, and experience as a Backend Engineer with frontend capabilities.
 
-![Portfolio Screenshot](/public/images/screenshot.png)
+![Portfolio](https://portofolio-dhana-nugraha.vercel.app/)
 
 ## 🚀 Features
 
@@ -72,10 +72,6 @@ A modern, responsive, and interactive portfolio website built with Next.js, Type
 3. **Deployment**:
    - The project is ready to be deployed to Vercel, Netlify, or any other static hosting service.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - [Next.js Documentation](https://nextjs.org/docs)
@@ -84,7 +80,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ by DN
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
